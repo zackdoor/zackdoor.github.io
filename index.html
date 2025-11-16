@@ -58,6 +58,182 @@
       filter: blur(5px);
     }
 
+    @media (max-width: 768px) {
+      body {
+        padding: 15px;
+      }
+
+      .container {
+        max-width: 100%;
+      }
+
+      .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px 20px;
+        gap: 20px;
+      }
+
+      .avatar img {
+        width: 90px;
+        height: 90px;
+      }
+
+      .name {
+        font-size: 28px;
+      }
+
+      .role {
+        font-size: 16px;
+        justify-content: center;
+      }
+
+      .lang-switch {
+        justify-content: center;
+      }
+
+      .tabs {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .tab {
+        padding: 16px;
+        font-size: 15px;
+      }
+
+      .content {
+        padding: 25px 20px;
+        min-height: auto;
+      }
+
+      .section h2 {
+        font-size: 22px;
+        margin-bottom: 18px;
+      }
+
+      .about-text {
+        font-size: 16px;
+        padding: 18px;
+        margin-bottom: 25px;
+      }
+
+      .skills {
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .skill {
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+
+      .skill img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .price-card {
+        padding: 20px;
+        margin-bottom: 18px;
+      }
+
+      .price-card h3 {
+        font-size: 20px;
+      }
+
+      .price {
+        font-size: 30px;
+      }
+
+      .price-note {
+        font-size: 13px;
+      }
+
+      .contact-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 20px 15px;
+        border-radius: 24px;
+      }
+
+      .avatar img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .name {
+        font-size: 24px;
+      }
+
+      .role {
+        font-size: 15px;
+      }
+
+      .lang-btn {
+        padding: 8px 14px;
+        font-size: 18px;
+      }
+
+      .content {
+        padding: 20px 15px;
+        border-radius: 24px;
+      }
+
+      .section h2 {
+        font-size: 20px;
+        flex-wrap: wrap;
+      }
+
+      .about-text {
+        font-size: 15px;
+        padding: 15px;
+      }
+
+      .skills {
+        gap: 10px;
+      }
+
+      .skill {
+        padding: 10px 18px;
+        font-size: 14px;
+        flex: 1 1 calc(50% - 5px);
+        min-width: 120px;
+        justify-content: center;
+      }
+
+      .skill img {
+        width: 22px;
+        height: 22px;
+      }
+
+      .price-card {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .price-card h3 {
+        font-size: 18px;
+        flex-wrap: wrap;
+      }
+
+      .price {
+        font-size: 28px;
+      }
+
+      .contact-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+    }
+
     .header {
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(60px) saturate(200%);
