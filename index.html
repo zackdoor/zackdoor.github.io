@@ -1,861 +1,436 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Zack — Bio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zackdoor - Developer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif;
-      color: white;
       min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding: 20px;
-      overflow-x: hidden;
+      justify-content: center;
+      background: #0a0a1a;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
       position: relative;
     }
 
-    body::before {
-      content: '';
+    /* ANIMATED BACKGROUND PARTICLES */
+    .bg-particles {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-      animation: float 20s ease-in-out infinite;
-      pointer-events: none;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(139, 92, 246, 0.6);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.8);
     }
 
     @keyframes float {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(30px, -30px); }
+      0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); opacity: 0; }
     }
 
-    .container {
-      max-width: 900px;
-      width: 100%;
-      position: relative;
+    /* MEGA GLOW BACKGROUND */
+    .glow-bg {
+      position: absolute;
+      width: 480px;
+      height: 680px;
+      border-radius: 40px;
+      filter: blur(60px);
+      background: conic-gradient(from 0deg, #8b5cf6, #22d3ee, #f472b6, #8b5cf6);
+      opacity: 0.5;
+      animation: hyperRotate 8s linear infinite, megaPulse 3s ease-in-out infinite;
       z-index: 1;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .container.fade {
-      opacity: 0.6;
-      transform: scale(0.97);
-      filter: blur(5px);
+    @keyframes hyperRotate {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
     }
 
-    @media (max-width: 768px) {
-      body {
-        padding: 15px;
-      }
-
-      .container {
-        max-width: 100%;
-      }
-
-      .header {
-        flex-direction: column;
-        text-align: center;
-        padding: 25px 20px;
-        gap: 20px;
-      }
-
-      .avatar img {
-        width: 90px;
-        height: 90px;
-      }
-
-      .name {
-        font-size: 28px;
-      }
-
-      .role {
-        font-size: 16px;
-        justify-content: center;
-      }
-
-      .lang-switch {
-        justify-content: center;
-      }
-
-      .tabs {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .tab {
-        padding: 16px;
-        font-size: 15px;
-      }
-
-      .content {
-        padding: 25px 20px;
-        min-height: auto;
-      }
-
-      .section h2 {
-        font-size: 22px;
-        margin-bottom: 18px;
-      }
-
-      .about-text {
-        font-size: 16px;
-        padding: 18px;
-        margin-bottom: 25px;
-      }
-
-      .skills {
-        gap: 12px;
-        justify-content: center;
-      }
-
-      .skill {
-        padding: 12px 20px;
-        font-size: 15px;
-      }
-
-      .skill img {
-        width: 24px;
-        height: 24px;
-      }
-
-      .price-card {
-        padding: 20px;
-        margin-bottom: 18px;
-      }
-
-      .price-card h3 {
-        font-size: 20px;
-      }
-
-      .price {
-        font-size: 30px;
-      }
-
-      .price-note {
-        font-size: 13px;
-      }
-
-      .contact-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 14px 24px;
-        font-size: 15px;
-      }
+    @keyframes megaPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.7; }
     }
 
-    @media (max-width: 480px) {
-      .header {
-        padding: 20px 15px;
-        border-radius: 24px;
-      }
-
-      .avatar img {
-        width: 80px;
-        height: 80px;
-      }
-
-      .name {
-        font-size: 24px;
-      }
-
-      .role {
-        font-size: 15px;
-      }
-
-      .lang-btn {
-        padding: 8px 14px;
-        font-size: 18px;
-      }
-
-      .content {
-        padding: 20px 15px;
-        border-radius: 24px;
-      }
-
-      .section h2 {
-        font-size: 20px;
-        flex-wrap: wrap;
-      }
-
-      .about-text {
-        font-size: 15px;
-        padding: 15px;
-      }
-
-      .skills {
-        gap: 10px;
-      }
-
-      .skill {
-        padding: 10px 18px;
-        font-size: 14px;
-        flex: 1 1 calc(50% - 5px);
-        min-width: 120px;
-        justify-content: center;
-      }
-
-      .skill img {
-        width: 22px;
-        height: 22px;
-      }
-
-      .price-card {
-        padding: 18px;
-        border-radius: 20px;
-      }
-
-      .price-card h3 {
-        font-size: 18px;
-        flex-wrap: wrap;
-      }
-
-      .price {
-        font-size: 28px;
-      }
-
-      .contact-btn {
-        padding: 12px 20px;
-        font-size: 14px;
-      }
+    /* MAIN CARD */
+    .card {
+      position: relative;
+      width: 380px;
+      padding: 35px 26px 32px;
+      border-radius: 30px;
+      background: rgba(15, 15, 35, 0.85);
+      border: 2px solid rgba(139, 92, 246, 0.5);
+      box-shadow: 0 0 100px rgba(139, 92, 246, 0.7), inset 0 0 60px rgba(139, 92, 246, 0.1);
+      backdrop-filter: blur(20px);
+      animation: cardEnter 1.2s cubic-bezier(.2,.9,.3,1.1) forwards;
+      color: #e9ecff;
+      z-index: 2;
     }
 
-    .header {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(60px) saturate(200%);
-      -webkit-backdrop-filter: blur(60px) saturate(200%);
-      border-radius: 32px;
-      padding: 30px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 
-        0 8px 32px rgba(31, 38, 135, 0.15),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
+    @keyframes cardEnter {
+      0% { transform: translateY(100px) rotateX(30deg) scale(0.7); opacity: 0; filter: blur(20px); }
+      100% { transform: translateY(0) rotateX(0) scale(1); opacity: 1; filter: blur(0); }
+    }
+
+    /* AVATAR */
+    .avatar-wrap {
       display: flex;
-      align-items: center;
-      gap: 25px;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: slideDown 0.6s ease;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
     }
 
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .avatar-glow {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #22d3ee, #8b5cf6, #f472b6, #22d3ee);
+      animation: avatarRotate 4s linear infinite;
+      filter: blur(15px);
+      opacity: 0.8;
     }
 
-    .header:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        0 12px 48px rgba(31, 38, 135, 0.2),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
-        inset 0 -1px 0 0 rgba(255, 255, 255, 0.15);
+    @keyframes avatarRotate {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.15); }
+      100% { transform: rotate(360deg) scale(1); }
     }
 
     .avatar {
       position: relative;
-    }
-
-    .avatar img {
-      width: 100px;
-      height: 100px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
-      border: 2.5px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 
-        0 8px 32px rgba(31, 38, 135, 0.2),
-        inset 0 1px 2px rgba(255, 255, 255, 0.3);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: rotateIn 0.8s ease;
+      object-fit: cover;
+      border: 4px solid #22d3ee;
+      box-shadow: 0 0 50px rgba(34, 211, 238, 1), inset 0 0 20px rgba(34, 211, 238, 0.3);
+      animation: avatarFloat 3s ease-in-out infinite, avatarPulse 2s ease-in-out infinite;
+      z-index: 1;
     }
 
-    @keyframes rotateIn {
-      from {
-        opacity: 0;
-        transform: rotate(-180deg) scale(0);
-      }
-      to {
-        opacity: 1;
-        transform: rotate(0) scale(1);
-      }
+    @keyframes avatarFloat {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      25% { transform: translateY(-12px) rotate(-3deg); }
+      75% { transform: translateY(-8px) rotate(3deg); }
     }
 
-    .avatar img:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 
-        0 12px 48px rgba(31, 38, 135, 0.3),
-        inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    @keyframes avatarPulse {
+      0%, 100% { box-shadow: 0 0 50px rgba(34, 211, 238, 1), inset 0 0 20px rgba(34, 211, 238, 0.3); }
+      50% { box-shadow: 0 0 80px rgba(34, 211, 238, 1), inset 0 0 30px rgba(34, 211, 238, 0.5); }
     }
 
-    .header-info {
-      flex: 1;
-    }
-
-    .name {
-      font-size: 36px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      letter-spacing: -0.5px;
-      animation: fadeIn 0.8s ease 0.2s both;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateX(-20px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    .role {
-      font-size: 18px;
-      opacity: 0.95;
-      animation: fadeIn 0.8s ease 0.4s both;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .lang-switch {
-      display: flex;
-      gap: 10px;
-    }
-
-    .lang-btn {
-      padding: 10px 16px;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 16px;
-      cursor: pointer;
-      font-size: 20px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      backdrop-filter: blur(30px) saturate(180%);
-      -webkit-backdrop-filter: blur(30px) saturate(180%);
-      box-shadow: 
-        0 4px 16px rgba(31, 38, 135, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
-
-    .lang-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 
-        0 6px 24px rgba(31, 38, 135, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    }
-
-    .lang-btn:active {
-      transform: scale(0.95);
-    }
-
-    .tabs {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 30px;
-      animation: slideUp 0.6s ease 0.2s both;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .tab {
-      flex: 1;
-      padding: 18px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(60px) saturate(200%);
-      -webkit-backdrop-filter: blur(60px) saturate(200%);
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* TITLE */
+    h1 {
       text-align: center;
-      font-weight: 500;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 
-        0 4px 16px rgba(31, 38, 135, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
-
-    .tab::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-      transition: left 0.5s;
-    }
-
-    .tab:hover::before {
-      left: 100%;
-    }
-
-    .tab:hover {
-      background: rgba(255, 255, 255, 0.22);
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 
-        0 8px 32px rgba(31, 38, 135, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    }
-
-    .tab.active {
-      background: rgba(255, 255, 255, 0.25);
-      box-shadow: 
-        0 8px 32px rgba(31, 38, 135, 0.15),
-        inset 0 2px 4px rgba(255, 255, 255, 0.2);
-    }
-
-    .content {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(60px) saturate(200%);
-      -webkit-backdrop-filter: blur(60px) saturate(200%);
-      border-radius: 32px;
-      padding: 35px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 
-        0 8px 32px rgba(31, 38, 135, 0.15),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
-      min-height: 400px;
-      animation: fadeInScale 0.6s ease 0.4s both;
-    }
-
-    @keyframes fadeInScale {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .section {
-      display: none;
-    }
-
-    .section.active {
-      display: block;
-      animation: fadeInContent 0.5s ease;
-    }
-
-    @keyframes fadeInContent {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .section h2 {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 25px;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .about-text {
-      font-size: 18px;
-      line-height: 1.6;
-      opacity: 0.95;
-      margin-bottom: 30px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .skills {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .skill {
-      padding: 14px 28px;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(40px) saturate(180%);
-      -webkit-backdrop-filter: blur(40px) saturate(180%);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      font-weight: 500;
-      font-size: 16px;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 
-        0 4px 16px rgba(31, 38, 135, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
-
-    .skill img {
-      width: 28px;
-      height: 28px;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-    }
-
-    .skill::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.8));
-      transform: scaleX(0);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .skill:hover::after {
-      transform: scaleX(1);
-    }
-
-    .skill:hover {
-      background: rgba(255, 255, 255, 0.28);
-      transform: translateY(-10px) scale(1.08);
-      box-shadow: 
-        0 12px 35px rgba(31, 38, 135, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    }
-
-    .skill:hover img {
-      transform: scale(1.3) rotate(10deg);
-    }
-
-    .price-card {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(50px) saturate(200%);
-      -webkit-backdrop-filter: blur(50px) saturate(200%);
-      border-radius: 26px;
-      padding: 25px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 
-        0 4px 16px rgba(31, 38, 135, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
-
-    .price-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .price-card:hover::before {
-      opacity: 1;
-      animation: shine 1.5s ease-in-out;
-    }
-
-    @keyframes shine {
-      0% { transform: translate(-50%, -50%) rotate(0deg); }
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    .price-card:hover {
-      transform: translateX(10px);
-      box-shadow: 
-        0 12px 45px rgba(31, 38, 135, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.22);
-    }
-
-    .price-card h3 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .price {
-      font-size: 36px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #ffd700, #ffed4e);
+      margin: 16px 0 8px;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #22d3ee, #8b5cf6, #f472b6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin: 10px 0;
-      filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.3));
+      animation: titleGlow 3s ease-in-out infinite, titleWave 4s ease-in-out infinite;
+      text-shadow: 0 0 30px rgba(167, 139, 250, 0.5);
     }
 
-    .price-note {
-      opacity: 0.9;
-      font-size: 14px;
-      margin-top: 8px;
+    @keyframes titleGlow {
+      0%, 100% { filter: brightness(1) drop-shadow(0 0 10px rgba(139, 92, 246, 0.5)); }
+      50% { filter: brightness(1.3) drop-shadow(0 0 20px rgba(34, 211, 238, 0.8)); }
+    }
+
+    @keyframes titleWave {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 15px;
+      opacity: 0.85;
+      margin-bottom: 24px;
+      animation: subtitleFade 2s ease-in-out infinite;
+    }
+
+    @keyframes subtitleFade {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    /* TECH TAGS */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .tag {
       display: flex;
       align-items: center;
-      gap: 6px;
-    }
-
-    .icon {
-      font-size: 26px;
-      animation: bounce 2s ease-in-out infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    .contact-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 32px;
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(40px) saturate(180%);
-      -webkit-backdrop-filter: blur(40px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 18px;
-      color: white;
-      font-size: 16px;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 14px;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(34, 211, 238, 0.15);
+      border: 2px solid rgba(34, 211, 238, 0.6);
+      color: #e0f7ff;
+      transition: all 0.4s cubic-bezier(.2,.9,.3,1.2);
+      animation: tagEntry 1s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tag::before {
+      content: "";
+      position: absolute;
+      inset: -100%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .tag:hover::before {
+      transform: translateX(100%);
+    }
+
+    @keyframes tagEntry {
+      0% { opacity: 0; transform: scale(0.4) rotate(-20deg); filter: blur(10px); }
+      100% { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+    }
+
+    .tag:nth-child(1) { animation-delay: 0.2s; }
+    .tag:nth-child(2) { animation-delay: 0.3s; }
+    .tag:nth-child(3) { animation-delay: 0.4s; }
+    .tag:nth-child(4) { animation-delay: 0.5s; }
+
+    .tag i {
+      font-size: 16px;
+    }
+
+    .tag svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.4s cubic-bezier(.2,.9,.3,1.2);
+    }
+
+    .tag:hover {
+      transform: scale(1.15) translateY(-5px);
+      background: rgba(34, 211, 238, 0.35);
+      box-shadow: 0 0 35px rgba(34, 211, 238, 0.9), 0 10px 25px rgba(34, 211, 238, 0.4);
+      border-color: #22d3ee;
+    }
+
+    .tag:hover svg {
+      transform: scale(1.25) rotate(8deg) translateY(-2px);
+    }
+
+    /* BUTTONS */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      height: 58px;
+      border-radius: 18px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #0a0a1a;
+      background: linear-gradient(135deg, #22d3ee, #8b5cf6, #f472b6);
+      background-size: 200% 200%;
       text-decoration: none;
-      margin-top: 20px;
-      box-shadow: 
-        0 8px 25px rgba(31, 38, 135, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(.2,.9,.3,1.2);
+      box-shadow: 0 10px 40px rgba(139, 92, 246, 0.7);
+      animation: btnEntry 1s ease both;
+      border: 2px solid rgba(255,255,255,0.2);
     }
 
-    .contact-btn:hover {
-      transform: translateY(-5px) scale(1.05);
-      background: rgba(255, 255, 255, 0.35);
-      box-shadow: 
-        0 12px 35px rgba(31, 38, 135, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    @keyframes btnEntry {
+      0% { opacity: 0; transform: translateY(60px) scale(0.7) rotateX(40deg); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotateX(0); filter: blur(0); }
     }
 
-    .contact-btn:active {
-      transform: translateY(-2px) scale(1.02);
+    .btn:nth-child(1) { animation-delay: 0.6s; }
+    .btn:nth-child(2) { animation-delay: 0.75s; }
+    .btn:nth-child(3) { animation-delay: 0.9s; }
+
+    .btn i {
+      font-size: 20px;
+      transition: transform 0.4s cubic-bezier(.2,.9,.3,1.2);
+    }
+
+    .btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.4s cubic-bezier(.2,.9,.3,1.2);
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #22d3ee, #8b5cf6, #f472b6);
+      background-size: 200% 200%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      animation: gradientShift 3s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: 20px;
+      background: linear-gradient(45deg, #22d3ee, #8b5cf6, #f472b6, #22d3ee);
+      background-size: 300% 300%;
+      opacity: 0;
+      filter: blur(8px);
+      transition: opacity 0.4s ease;
+      animation: glowRotate 4s linear infinite;
+      z-index: -2;
+    }
+
+    @keyframes glowRotate {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .btn:hover::before {
+      opacity: 0.2;
+    }
+
+    .btn:hover::after {
+      opacity: 0.9;
+    }
+
+    .btn:hover {
+      transform: translateY(-8px) scale(1.1);
+      filter: brightness(1.2) saturate(1.2);
+      box-shadow: 0 20px 60px rgba(34, 211, 238, 0.95), 0 0 50px rgba(139, 92, 246, 0.9), 0 0 95px rgba(244, 114, 182, 0.4);
+    }
+
+    .btn:hover i,
+    .btn:hover svg {
+      transform: scale(1.2) rotate(-8deg) translateY(-3px);
+    }
+
+    .btn:active {
+      transform: translateY(-6px) scale(1.08);
+      box-shadow: 0 16px 52px rgba(139, 92, 246, 0.85);
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.5;
+      animation: footerFade 2s ease both;
+      animation-delay: 1.1s;
+    }
+
+    @keyframes footerFade {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 0.5; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
+  <div class="bg-particles" id="particles"></div>
+  <div class="glow-bg"></div>
 
-  <div class="container">
-    
-    <div class="header">
-      <div class="avatar">
-        <img src="debian.png" alt="Zackdoor" />
+  <div class="card">
+    <div class="avatar-wrap">
+      <div class="avatar-glow"></div>
+      <img class="avatar" src="zack.png" alt="Zack Avatar" />
+    </div>
+
+    <h1>Zack</h1>
+    <div class="subtitle">Developer • Extreme Animations</div>
+
+    <div class="tags">
+      <div class="tag">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg>
+        Python
       </div>
-      <div class="header-info">
-        <h1 class="name">Zackdoor</h1>
-        <p class="role">
-          💻 <span class="role-text">Разработчик</span>
-        </p>
+      <div class="tag">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg>
+        JavaScript
       </div>
-      <div class="lang-switch">
-        <button class="lang-btn" onclick="setLang('ru')">🇷🇺</button>
-        <button class="lang-btn" onclick="setLang('en')">🇺🇸</button>
+      <div class="tag">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>
+        HTML
+      </div>
+      <div class="tag">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z"/></svg>
+        CSS
       </div>
     </div>
 
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('about')">
-        👨‍💻 <span class="tab-text">Обо мне</span>
-      </div>
-      <div class="tab" onclick="switchTab('order')">
-        🛒 <span class="tab-text">Заказать</span>
-      </div>
+    <div class="links">
+      <a class="btn" href="https://t.me/zackdoor" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Telegram
+      </a>
+      <a class="btn" href="https://t.me/send?start=IVQ58KPU3HP6" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Donate
+      </a>
     </div>
 
-    <div class="content">
-      
-      <div class="section active" id="about">
-        <h2>
-          💼 <span class="about-title">Обо мне</span>
-        </h2>
-        <div class="about-text">
-          <span class="about-description">Я профессиональный разработчик, специализирующийся на создании веб-приложений и Telegram ботов. Работаю с современными технологиями и создаю качественные решения для ваших задач.</span>
-        </div>
-        
-        <h2>
-          🌐 <span class="languages-title">Языки программирования</span>
-        </h2>
-        <div class="skills">
-          <div class="skill">
-            <img src="java.png" alt="JavaScript">
-            JavaScript
-          </div>
-          <div class="skill">
-            <img src="css.png" alt="CSS">
-            CSS
-          </div>
-          <div class="skill">
-            <img src="html.png" alt="HTML">
-            HTML
-          </div>
-        </div>
-      </div>
-
-      <div class="section" id="order">
-        <h2>
-          💰 <span class="order-title">Прайс-лист</span>
-        </h2>
-        
-        <div class="price-card">
-          <h3>
-            <span class="icon">🤖</span>
-            <span class="tg-bot-title">Telegram бот</span>
-          </h3>
-          <div class="price">$5</div>
-          <p class="price-note">
-            💾 <span class="server-text">С сервером:</span> +$2/<span class="month-text">месяц</span>
-          </p>
-        </div>
-
-        <div class="price-card">
-          <h3>
-            <span class="icon">🌐</span>
-            <span class="website-title">Веб-сайт</span>
-          </h3>
-          <div class="price"><span class="negotiable-text">Договорная</span></div>
-          <p class="price-note">
-            💾 <span class="server-text">С сервером:</span> +$2/<span class="month-text">месяц</span>
-          </p>
-          <p class="price-note" style="margin-top: 5px;">
-            💡 <span class="complexity-text">Цена зависит от сложности проекта</span>
-          </p>
-        </div>
-
-        <a href="https://t.me/PartnerGordLinkBot" target="_blank" class="contact-btn">
-          ✈️ <span class="contact-text">Написать в Telegram</span>
-        </a>
-
-      </div>
-
-    </div>
-
+    <div class="footer">© Zack — brutal animated bio</div>
   </div>
 
   <script>
-    function switchTab(tabName) {
-      const tabs = document.querySelectorAll('.tab');
-      const sections = document.querySelectorAll('.section');
-      
-      tabs.forEach(tab => tab.classList.remove('active'));
-      sections.forEach(section => section.classList.remove('active'));
-      
-      event.target.closest('.tab').classList.add('active');
-      document.getElementById(tabName).classList.add('active');
-    }
-
-    function setLang(lang) {
-      const container = document.querySelector('.container');
-      container.classList.add('fade');
-
-      setTimeout(() => {
-        const translations = {
-          ru: {
-            role: 'Разработчик',
-            aboutTab: 'Обо мне',
-            orderTab: 'Заказать',
-            aboutTitle: 'Обо мне',
-            aboutDescription: 'Я профессиональный разработчик, специализирующийся на создании веб-приложений и Telegram ботов. Работаю с современными технологиями и создаю качественные решения для ваших задач.',
-            languagesTitle: 'Языки программирования',
-            orderTitle: 'Прайс-лист',
-            tgBot: 'Telegram бот',
-            website: 'Веб-сайт',
-            serverText: 'С сервером:',
-            monthText: 'месяц',
-            negotiable: 'Договорная',
-            complexity: 'Цена зависит от сложности проекта',
-            contactText: 'Написать в Telegram'
-          },
-          en: {
-            role: 'Developer',
-            aboutTab: 'About Me',
-            orderTab: 'Order',
-            aboutTitle: 'About Me',
-            aboutDescription: 'I am a professional developer specializing in creating web applications and Telegram bots. I work with modern technologies and create quality solutions for your needs.',
-            languagesTitle: 'Programming Languages',
-            orderTitle: 'Price List',
-            tgBot: 'Telegram Bot',
-            website: 'Website',
-            serverText: 'With server:',
-            monthText: 'month',
-            negotiable: 'Negotiable',
-            complexity: 'Price depends on project complexity',
-            contactText: 'Contact on Telegram'
-          }
-        };
-
-        const t = translations[lang];
-        
-        document.querySelector('.role-text').textContent = t.role;
-        document.querySelectorAll('.tab-text')[0].textContent = t.aboutTab;
-        document.querySelectorAll('.tab-text')[1].textContent = t.orderTab;
-        document.querySelector('.about-title').textContent = t.aboutTitle;
-        document.querySelector('.about-description').textContent = t.aboutDescription;
-        document.querySelector('.languages-title').textContent = t.languagesTitle;
-        document.querySelector('.order-title').textContent = t.orderTitle;
-        document.querySelector('.tg-bot-title').textContent = t.tgBot;
-        document.querySelector('.website-title').textContent = t.website;
-        document.querySelectorAll('.server-text').forEach(el => el.textContent = t.serverText);
-        document.querySelectorAll('.month-text').forEach(el => el.textContent = t.monthText);
-        document.querySelector('.negotiable-text').textContent = t.negotiable;
-        document.querySelector('.complexity-text').textContent = t.complexity;
-        document.querySelector('.contact-text').textContent = t.contactText;
-
-        container.classList.remove('fade');
-      }, 300);
+    // Generate floating particles
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.setProperty('--tx', (Math.random() - 0.5) * 400 + 'px');
+      particle.style.setProperty('--ty', (Math.random() - 0.5) * 400 + 'px');
+      particle.style.animationDelay = Math.random() * 8 + 's';
+      particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      container.appendChild(particle);
     }
   </script>
-
 </body>
 </html>
